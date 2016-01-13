@@ -107,6 +107,30 @@ public class BluetoothChatFragment extends Fragment {
         super.onStart();
         // If BT is not on, request that it be enabled.
         // setupChat() will then be called during onActivityResult
+
+        if(mBluetoothAdapter==null) // Checking Bluetooth Device install or not
+        {
+            Toast.makeText(getContext(),"Bluetooth is not available",Toast.LENGTH_SHORT).show();
+        }
+
+        else{
+
+            if (!mBluetoothAdapter.isEnabled()) {
+                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                // Otherwise, setup the chat session
+            } else if (mChatService == null) {
+                setupChat();
+            }
+
+        }
+    }
+
+   /* @Override
+    public void onStart() {
+        super.onStart();
+        // If BT is not on, request that it be enabled.
+        // setupChat() will then be called during onActivityResult
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
@@ -114,7 +138,7 @@ public class BluetoothChatFragment extends Fragment {
         } else if (mChatService == null) {
             setupChat();
         }
-    }
+    }*/
 
     @Override
     public void onDestroy() {
